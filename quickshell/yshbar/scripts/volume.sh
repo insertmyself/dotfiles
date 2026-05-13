@@ -28,10 +28,7 @@ show_volume() {
 increase_volume() {
     CURRENT_VOLUME=$((CURRENT_VOLUME + 5))
     pactl set-sink-volume @DEFAULT_SINK@ +${STEP}%
-    if [[ ${CURRENT_VOLUME} -ge 100 ]]; then
-        pactl set-sink-volume @DEFAULT_SINK@ 100%
-        CURRENT_VOLUME=100
-    elif [[ ${CURRENT_VOLUME} -le 0 ]]; then
+    if [[ ${CURRENT_VOLUME} -le 0 ]]; then
         pactl set-sink-volume @DEFAULT_SINK@ 0
         CURRENT_VOLUME=0
     fi
@@ -41,10 +38,7 @@ increase_volume() {
 decrease_volume() {
     CURRENT_VOLUME=$((CURRENT_VOLUME - 5))
     pactl set-sink-volume @DEFAULT_SINK@ -${STEP}%
-    if [[ ${CURRENT_VOLUME} -ge 100 ]]; then
-        pactl set-sink-volume @DEFAULT_SINK@ 100%
-        CURRENT_VOLUME=100
-    elif [[ ${CURRENT_VOLUME} -le 0 ]]; then
+    if [[ ${CURRENT_VOLUME} -le 0 ]]; then
         pactl set-sink-volume @DEFAULT_SINK@ 0
         CURRENT_VOLUME=0
     fi

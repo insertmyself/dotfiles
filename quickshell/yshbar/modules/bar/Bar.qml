@@ -103,7 +103,7 @@ Scope {
                             if (mouse.button === Qt.LeftButton) {
                                 Quickshell.execDetached(["sh", "-c", "$HOME/.config/niri/scripts/menus/main.sh"]);
                             } else if (mouse.button === Qt.RightButton) {
-                                Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/wbar-niri/scripts/wallpaper.sh --randomize"]);
+                                Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/yshbar/scripts/wallpaper.sh --randomize"]);
                             }
                         }
                     }
@@ -226,11 +226,11 @@ Scope {
                             hoverEnabled: true
                             acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
 
-                            onClicked: Quickshell.execDetached(["/home/wetar/.config/quickshell/wbar-niri/scripts/volume.sh", "--toggle"])
+                            onClicked: Quickshell.execDetached(["/home/wetar/.config/quickshell/yshbar/scripts/volume.sh", "--toggle"])
 
                             onWheel: mouse => {
                                 const dir = mouse.angleDelta.y > 0 ? "--inc" : "--dec";
-                                Quickshell.execDetached(["sh", "-c", `$HOME/.config/quickshell/wbar-niri/scripts/volume.sh ${dir}`]);
+                                Quickshell.execDetached(["sh", "-c", `$HOME/.config/quickshell/yshbar/scripts/volume.sh ${dir}`]);
                             }
                         }
                     }
@@ -283,11 +283,11 @@ Scope {
                             hoverEnabled: true
                             acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
 
-                            onClicked: Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/wbar-niri/scripts/brightness.sh --cycle"])
+                            onClicked: Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/yshbar/scripts/brightness.sh --cycle"])
 
                             onWheel: mouse => {
                                 const dir = mouse.angleDelta.y > 0 ? "--inc" : "--dec";
-                                Quickshell.execDetached(["sh", "-c", `$HOME/.config/quickshell/wbar-niri/scripts/brightness.sh ${dir}`]);
+                                Quickshell.execDetached(["sh", "-c", `$HOME/.config/quickshell/yshbar/scripts/brightness.sh ${dir}`]);
                             }
                         }
                     }
