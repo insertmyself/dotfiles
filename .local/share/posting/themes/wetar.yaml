@@ -1,0 +1,11 @@
+name: wetar
+primary: "#ffffff"
+secondary: "#ffffff"
+accent: "#ffffff"
+background: "#000000"
+surface: "#000000"
+error: "#ff0808"
+success: "#33ff00"
+warning: "#feff00"
+
+author: "Wetar"

@@ -1,0 +1,101 @@
+configuration {
+    drun-display-format: "{icon} {name}";
+    font: "JetBrainsMono Nerd Font Bold 13";
+    modi: "window,drun,run,emoji";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+}
+
+@theme "/dev/null"
+
+* {
+    bg: #000000;
+    
+    fg: #ffffff;
+    fg-alt: #787c99;
+
+    background-color: @bg;
+
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    orientation: horizontal;
+    width: 50%;
+    border: 2px solid;
+    border-color: #ffffff;
+    children: [ mainbox ];
+}
+
+mainbox {
+   orientation: vertical;
+   background-color: @bg;
+   children: [ listview, inputbar ];
+}
+
+element {
+    padding: 8px;
+    text-color: @fg-alt;
+    background-color: transparent;
+}
+
+element selected {
+    text-color: @fg;
+}
+
+element-text {
+    margin: 0 0 0 3px;
+    background-color: inherit;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+element-icon {
+    size: 35;
+    background-color: transparent;
+}
+
+inputbar {
+    enabled: true;
+    padding: 4px;
+    children: [ prompt, entry ];
+}
+
+listview {
+    background-color: @bg;
+    scrollbar: true;
+    columns: 1;
+    lines: 9;
+}
+
+#scrollbar {
+    border: 0;
+    handle-color: @fg;
+    handle-width: 2px;
+    padding: 0;
+    margin: 3px;
+}
+
+entry {
+    padding: 4px 8px 4px 8px;
+    enabled: true;
+    border: 2px solid;
+    border-color: #ffffff;
+    text-color: #ffffff;
+}
+
+prompt {
+    padding: 6px;
+    enabled: true;
+    background-color: #ffffff;
+    text-color: #000000;
+}
+
+textbox {
+    background-color: #000000;
+    text-color: #ffffff;
+    padding: 8px;
+}
