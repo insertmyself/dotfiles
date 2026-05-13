@@ -10,6 +10,8 @@ Item {
     required property int workspaceBoxWidthAfter
     required property int workspaceBoxHeight
 
+    signal currentChanged
+
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
     implicitWidth: workspaceRow.implicitWidth + 10
@@ -18,76 +20,64 @@ Item {
     Niri {
         id: niriIntegration
         Component.onCompleted: connect()
-
         onConnected: console.log("Connected to niri")
-        onErrorOccurred: function (error) {
-            console.log("Failed to connect", error);
-        }
+        onErrorOccurred: error => console.log("Failed to connect", error)
     }
 
     Component.onCompleted: niriIntegration.workspaces.maxCount = 4
 
-    Rectangle {
-        id: workspaceWidget
-        color: "transparent"
-        anchors.verticalCenter: parent.verticalCenter
+    Row {
+        id: workspaceRow
         anchors.left: parent.left
-        implicitWidth: workspaceRow.implicitWidth + 10
-        height: workspaceRow.height
+        anchors.leftMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: workspaceWidgetRoot.workspaceSpacing
 
-        Row {
-            id: workspaceRow
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: workspaceWidgetRoot.workspaceSpacing
+        Repeater {
+            model: niriIntegration.workspaces
 
-            Repeater {
-                id: workspaceRepeater
-                model: niriIntegration.workspaces
+            delegate: Rectangle {
+                implicitWidth: model.isActive ? workspaceWidgetRoot.workspaceBoxWidthAfter : workspaceWidgetRoot.workspaceBoxWidthBefore
+                implicitHeight: workspaceWidgetRoot.workspaceBoxHeight
+                radius: 0
+                color: workspaceMouseArea.containsMouse ? "#959595" : "#000000"
 
-                delegate: Rectangle {
-                    id: workspaceContainer
-                    implicitWidth: model.isActive ? workspaceWidgetRoot.workspaceBoxWidthAfter : workspaceWidgetRoot.workspaceBoxWidthBefore
-                    implicitHeight: workspaceWidgetRoot.workspaceBoxHeight
-                    radius: 0
-                    color: workspaceMouseArea.containsMouse ? "#959595" : "#000000"
-                    border.width: 0
+                onImplicitWidthChanged: {
+                    if (model.isActive)
+                        workspaceWidgetRoot.currentChanged();
+                }
 
-                    Behavior on color {
-                        ColorAnimation {
-                            duration: 230
-                        }
-                    }
-
-                    Behavior on implicitWidth {
-                        NumberAnimation {
-                            duration: 240
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-
-                    MouseArea {
-                        id: workspaceMouseArea
-                        cursorShape: Qt.PointingHandCursor
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        onClicked: niriIntegration.focusWorkspaceById(model.id)
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 230
                     }
                 }
-            }
+                Behavior on implicitWidth {
+                    NumberAnimation {
+                        duration: 240
+                        easing.type: Easing.InOutQuad
+                    }
+                }
 
-            Text {
-                visible: niriIntegration.workspaces.length === 0
-                renderType: Text.NativeRendering
-                font.hintingPreference: Font.PreferFullHinting
-                text: "No workspaces"
-                color: "#ffffff"
-                font.pixelSize: 14
-                font.family: "JetBrainsMono Nerd Font Propo"
-                font.weight: 900
+                MouseArea {
+                    id: workspaceMouseArea
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    onClicked: niriIntegration.focusWorkspaceById(model.id)
+                }
             }
+        }
+
+        Text {
+            visible: niriIntegration.workspaces.length === 0
+            text: "No workspaces"
+            color: "#ffffff"
+            font.pixelSize: 14
+            font.family: "JetBrainsMono Nerd Font Propo"
+            font.weight: 900
+            renderType: Text.NativeRendering
+            font.hintingPreference: Font.PreferFullHinting
         }
     }
 }

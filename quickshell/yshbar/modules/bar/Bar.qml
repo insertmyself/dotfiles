@@ -19,16 +19,49 @@ Scope {
             required property ShellScreen modelData
             readonly property int barWidth: Math.min(1440, modelData.width - 30)
 
+            readonly property bool barVisible: hoverHandler.hovered || workspaceRevealTimer.running
+
             screen: modelData
+            color: "transparent"
             implicitWidth: barWidth
-            implicitHeight: 45
+            implicitHeight: 56
             anchors.top: true
-            margins.top: 10
-            margins.bottom: 8
+            margins.top: 0
             WlrLayershell.layer: WlrLayer.Top
+            WlrLayershell.exclusiveZone: 0
+
+            HoverHandler {
+                id: hoverHandler
+            }
+
+            Timer {
+                id: workspaceRevealTimer
+                interval: 1500
+                repeat: false
+            }
+
+            Connections {
+                target: workspaceWidget
+                function onCurrentChanged() {
+                    workspaceRevealTimer.restart();
+                }
+            }
 
             Rectangle {
-                anchors.fill: parent
+                id: bar
+                width: barWidth
+                height: 45
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                y: mainBar.barVisible ? 10 : -45
+
+                Behavior on y {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+
                 color: "#000000"
                 border.width: 2
                 border.color: "#ffffff"
@@ -37,7 +70,7 @@ Scope {
                 Rectangle {
                     id: menuLogo
                     width: 50
-                    height: mainBar.implicitHeight
+                    height: bar.height
                     color: "#ffffff"
                     anchors.left: parent.left
 
@@ -84,7 +117,6 @@ Scope {
                     spacing: 4
 
                     Rectangle {
-                        id: workspaceWidgetContainer
                         color: "#ffffff"
                         width: workspaceWidget.implicitWidth + 10
                         height: 33
@@ -107,7 +139,6 @@ Scope {
                     spacing: 4
 
                     Rectangle {
-                        id: musicWidgetContainer
                         color: "#ffffff"
                         height: 33
                         width: musicWidget.implicitWidth + 22
@@ -122,11 +153,10 @@ Scope {
                     }
 
                     Rectangle {
-                        id: networkWidgetContainer
                         color: "#ffffff"
                         height: 33
                         width: networkWidget.implicitWidth + 20
-                        visible: networkWidget.implicitWidth !== 0 ? true : false
+                        visible: networkWidget.implicitWidth !== 0
                         clip: true
 
                         Behavior on width {
@@ -138,7 +168,7 @@ Scope {
 
                         Network {
                             id: networkWidget
-                            showSpeed: networkWidgetMouseArea.containsMouse ? true : false
+                            showSpeed: networkWidgetMouseArea.containsMouse
                         }
 
                         MouseArea {
@@ -149,7 +179,6 @@ Scope {
                     }
 
                     Rectangle {
-                        id: volumeWidgetContainer
                         color: "#656565"
                         height: 33
                         width: volumeWidget.implicitWidth + 20
@@ -157,15 +186,13 @@ Scope {
                         border.width: 2
 
                         Rectangle {
-                            id: volumeWidgetSliderContainer
-                            color: "#656565"
                             anchors.fill: parent
+                            color: "#656565"
                             clip: true
                             border.color: "#ffffff"
                             border.width: 2
 
                             Rectangle {
-                                id: volumeWidgetSlider
                                 width: PW.isMuted ? 0 : parent.width * (PW.pwVolume / 100)
                                 height: parent.height
                                 color: "#ffffff"
@@ -202,17 +229,13 @@ Scope {
                             onClicked: Quickshell.execDetached(["/home/wetar/.config/quickshell/wbar-niri/scripts/volume.sh", "--toggle"])
 
                             onWheel: mouse => {
-                                if (mouse.angleDelta.y > 0) {
-                                    Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/wbar-niri/scripts/volume.sh --inc"]);
-                                } else if (mouse.angleDelta.y < 0) {
-                                    Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/wbar-niri/scripts/volume.sh --dec"]);
-                                }
+                                const dir = mouse.angleDelta.y > 0 ? "--inc" : "--dec";
+                                Quickshell.execDetached(["sh", "-c", `$HOME/.config/quickshell/wbar-niri/scripts/volume.sh ${dir}`]);
                             }
                         }
                     }
 
                     Rectangle {
-                        id: brightnessWidgetContainer
                         color: "#656565"
                         height: 33
                         width: brightnessWidget.implicitWidth + 20
@@ -220,15 +243,13 @@ Scope {
                         border.width: 2
 
                         Rectangle {
-                            id: brightnessWidgetSliderContainer
-                            color: "#656565"
                             anchors.fill: parent
+                            color: "#656565"
                             clip: true
                             border.color: "#ffffff"
                             border.width: 2
 
                             Rectangle {
-                                id: brightnessWidgetSlider
                                 width: parent.width * (BR.brBrightness / 100)
                                 height: parent.height
                                 color: "#ffffff"
@@ -265,17 +286,13 @@ Scope {
                             onClicked: Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/wbar-niri/scripts/brightness.sh --cycle"])
 
                             onWheel: mouse => {
-                                if (mouse.angleDelta.y > 0) {
-                                    Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/wbar-niri/scripts/brightness.sh --inc"]);
-                                } else if (mouse.angleDelta.y < 0) {
-                                    Quickshell.execDetached(["sh", "-c", "$HOME/.config/quickshell/wbar-niri/scripts/brightness.sh --dec"]);
-                                }
+                                const dir = mouse.angleDelta.y > 0 ? "--inc" : "--dec";
+                                Quickshell.execDetached(["sh", "-c", `$HOME/.config/quickshell/wbar-niri/scripts/brightness.sh ${dir}`]);
                             }
                         }
                     }
 
                     Rectangle {
-                        id: batteryWidgetContainer
                         color: "#656565"
                         height: 33
                         width: batteryWidget.implicitWidth + 20
@@ -283,19 +300,17 @@ Scope {
                         border.width: 2
 
                         Rectangle {
-                            id: batteryWidgetSliderContainer
-                            color: "#656565"
                             anchors.fill: parent
+                            color: "#656565"
                             clip: true
                             border.color: "#ffffff"
                             border.width: 2
 
                             Rectangle {
-                                id: batteryWidgetFiller
                                 width: parent.width * (BP.bpCapacity / 100)
                                 height: parent.height
                                 color: "#ffffff"
-                                visible: BP.isCharging !== true || BP.bpCapacity === 100
+                                visible: !BP.isCharging || BP.bpCapacity === 100
                                 border.color: "#ffffff"
                                 border.width: 2
 
@@ -308,14 +323,12 @@ Scope {
                             }
 
                             Rectangle {
-                                id: batteryWidgetSliderAnimation
                                 width: parent.width
                                 height: parent.height
                                 color: "#ffffff"
 
                                 SequentialAnimation on x {
-                                    id: chargingAnimation
-                                    running: BP.isCharging && !BP.bpCapacity <= 0 && BP.bpCapacity <= 99
+                                    running: BP.isCharging && BP.bpCapacity > 0 && BP.bpCapacity <= 99
                                     loops: Animation.Infinite
 
                                     NumberAnimation {
@@ -362,7 +375,6 @@ Scope {
                             anchors.rightMargin: 6
 
                             Text {
-                                id: cadWidgetsIcon
                                 text: "󰃰 "
                                 font.family: "JetBrainsMono Nerd Font Propo"
                                 color: "#000000"
@@ -372,15 +384,8 @@ Scope {
                                 font.weight: 900
                                 anchors.centerIn: parent
                                 anchors.horizontalCenterOffset: cadWidgetsMouseArea.containsMouse ? -52 : -80
-                                visible: cadWidgetsMouseArea.containsMouse ? true : false
+                                visible: cadWidgetsMouseArea.containsMouse
                                 opacity: cadWidgetsMouseArea.containsMouse ? 1 : 0
-
-                                Behavior on visible {
-                                    NumberAnimation {
-                                        duration: 350
-                                        easing.type: Easing.InOutQuad
-                                    }
-                                }
 
                                 Behavior on opacity {
                                     NumberAnimation {
@@ -388,7 +393,6 @@ Scope {
                                         easing.type: Easing.InOutQuad
                                     }
                                 }
-
                                 Behavior on anchors.horizontalCenterOffset {
                                     NumberAnimation {
                                         duration: 350
@@ -399,12 +403,12 @@ Scope {
 
                             Clock {
                                 id: clockWidget
-                                timeSec: cadWidgetsMouseArea.containsMouse ? true : false
+                                timeSec: cadWidgetsMouseArea.containsMouse
                             }
 
                             Date {
                                 id: dateWidget
-                                dateWidgetShow: cadWidgetsMouseArea.containsMouse ? true : false
+                                dateWidgetShow: cadWidgetsMouseArea.containsMouse
                             }
                         }
                     }
@@ -418,9 +422,8 @@ Scope {
                 }
 
                 Rectangle {
-                    id: powerLogo
                     width: 50
-                    height: mainBar.implicitHeight
+                    height: bar.height
                     color: "#ffffff"
                     anchors.right: parent.right
 

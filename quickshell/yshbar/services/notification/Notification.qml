@@ -4,83 +4,81 @@ import Quickshell.Wayland
 import QtQuick
 
 PanelWindow {
-    id: notificationWidgetRoot
+    id: root
 
-    property string notificationSummary: ""
-    property string notificationBody: ""
-    property var notificationActions: []
-    property var notificationCurrent: null
+    property var currentNotification: null
     property bool isShowing: false
-    property int notificationContentHeight: 48
 
-    implicitWidth: notificationWidgetBodyText.width + 120
-    implicitHeight: isShowing ? notificationWidgetRoot.notificationContentHeight : 0
+    property string summary: ""
+    property string body: ""
+    property var actions: []
+
+    readonly property int contentHeight: body !== "" ? 71 : 51
+
+    implicitWidth: bodyText.implicitWidth + 120
+    implicitHeight: isShowing ? contentHeight : 0
+
     anchors.right: true
     anchors.bottom: true
     margins.bottom: 26
     margins.right: 25
+
     visible: isShowing
     color: "transparent"
+
     WlrLayershell.layer: WlrLayer.Overlay
     exclusionMode: ExclusionMode.Ignore
 
-    function showNotification(notificationData) {
-        if (!notificationData) {
+    function showNotification(data) {
+        if (!data)
             return;
-        }
 
-        notificationCurrent = notificationData;
-        notificationSummary = notificationData.summary || "";
-        notificationBody = notificationData.body || "";
-        notificationActions = notificationData.actions || [];
-
-        if (notificationBody !== "") {
-            notificationContentHeight = 71;
-        } else {
-            notificationContentHeight = 51;
-        }
+        currentNotification = data;
+        summary = data.summary ?? "";
+        body = data.body ?? "";
+        actions = data.actions ?? [];
 
         isShowing = true;
-        notificationWidgetWindow.scale = 1.0;
-        notificationTimer.restart();
+        popup.scale = 1.0;
+        dismissTimer.restart();
     }
 
     function hideNotification() {
-        notificationWidgetWindow.scale = 0.0;
-        notificationDelayTimer.restart();
+        popup.scale = 0.0;
+        cleanupTimer.restart();
+    }
+
+    function clearState() {
+        if (currentNotification) {
+            currentNotification.close();
+            currentNotification = null;
+        }
+        summary = "";
+        body = "";
+        actions = [];
+        isShowing = false;
     }
 
     Timer {
-        id: notificationTimer
+        id: dismissTimer
         interval: 3000
         repeat: false
-        onTriggered: notificationWidgetRoot.hideNotification()
+        onTriggered: root.hideNotification()
     }
 
     Timer {
-        id: notificationDelayTimer
+        id: cleanupTimer
         interval: 500
         repeat: false
-        onTriggered: {
-            notificationWidgetRoot.isShowing = false;
-
-            if (notificationWidgetRoot.notificationCurrent) {
-                notificationWidgetRoot.notificationCurrent.close();
-                notificationWidgetRoot.notificationCurrent = null;
-            }
-
-            notificationWidgetRoot.notificationSummary = "";
-            notificationWidgetRoot.notificationBody = "";
-            notificationWidgetRoot.notificationActions = [];
-            notificationWidgetRoot.notificationIconImage = "";
-        }
+        onTriggered: root.clearState()
     }
 
     Rectangle {
-        id: notificationWidgetWindow
-        color: notificationWidgetWindowMouseArea.containsMouse ? "#101010" : "#000000"
-        height: notificationWidgetRoot.notificationContentHeight
-        width: notificationWidgetRoot.implicitWidth
+        id: popup
+
+        width: root.implicitWidth
+        height: root.contentHeight
+        color: hoverArea.containsMouse ? "#101010" : "#000000"
         border.width: 2
         border.color: "#ffffff"
         scale: 0.0
@@ -100,75 +98,64 @@ PanelWindow {
         }
 
         MouseArea {
-            id: notificationWidgetWindowMouseArea
+            id: hoverArea
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-
-            onEntered: notificationTimer.stop()
-
-            onExited: notificationTimer.restart()
-
+            onEntered: dismissTimer.stop()
+            onExited: dismissTimer.restart()
             onClicked: {
-                notificationTimer.stop();
-                notificationWidgetRoot.hideNotification();
+                dismissTimer.stop();
+                root.hideNotification();
             }
         }
 
-        Item {
-            id: notificationWidgetWindowValue
-            anchors.fill: parent
-            anchors.margins: 11
-            anchors.left: parent.left
+        Column {
+            anchors {
+                fill: parent
+                margins: 13
+            }
+            spacing: 2
 
-            Column {
-                id: notificationWidgetWindowColumn
-                anchors.fill: parent
-                anchors.margins: 2
-                spacing: 2
+            Text {
+                id: summaryText
+                text: root.summary
+                font.family: "JetBrainsMono Nerd Font Propo"
+                font.pixelSize: 16
+                font.weight: 900
+                color: "#ffffff"
+                maximumLineCount: 2
+                wrapMode: Text.Wrap
+                elide: Text.ElideRight
+                renderType: Text.NativeRendering
+                font.hintingPreference: Font.PreferFullHinting
+            }
 
-                Text {
-                    id: notificationWidgetSummaryText
-                    text: notificationWidgetRoot.notificationSummary
-                    font.family: "JetBrainsMono Nerd Font Propo"
-                    font.pixelSize: 16
-                    color: "#ffffff"
-                    font.weight: 900
-                    maximumLineCount: 2
-                    wrapMode: Text.Wrap
-                    elide: Text.ElideRight
-                    renderType: Text.NativeRendering
-                    font.hintingPreference: Font.PreferFullHinting
-                }
-
-                Text {
-                    id: notificationWidgetBodyText
-                    text: notificationWidgetRoot.notificationBody
-                    font.family: "JetBrainsMono Nerd Font Propo"
-                    font.pixelSize: 14
-                    font.underline: true
-                    color: "#ffffff"
-                    font.weight: 900
-                    maximumLineCount: 3
-                    wrapMode: Text.Wrap
-                    elide: Text.ElideRight
-                    renderType: Text.NativeRendering
-                    font.hintingPreference: Font.PreferFullHinting
-                    visible: text !== ""
-                }
+            Text {
+                id: bodyText
+                text: root.body
+                visible: text !== ""
+                font.family: "JetBrainsMono Nerd Font Propo"
+                font.pixelSize: 14
+                font.weight: 900
+                font.underline: true
+                color: "#ffffff"
+                maximumLineCount: 3
+                wrapMode: Text.Wrap
+                elide: Text.ElideRight
+                renderType: Text.NativeRendering
+                font.hintingPreference: Font.PreferFullHinting
             }
         }
     }
 
     NotificationServer {
-        id: notificationServer
         actionsSupported: true
         bodyHyperlinksSupported: true
         bodyMarkupSupported: true
         bodySupported: true
         keepOnReload: false
         persistenceSupported: true
-
-        onNotification: notificationStart => notificationWidgetRoot.showNotification(notificationStart)
+        onNotification: data => root.showNotification(data)
     }
 }
