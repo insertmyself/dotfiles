@@ -19,7 +19,7 @@ Scope {
             required property ShellScreen modelData
             readonly property int barWidth: Math.min(1440, modelData.width - 30)
 
-            readonly property bool barVisible: hoverHandler.hovered || workspaceRevealTimer.running
+            readonly property bool barVisible: hoverZoneHandler.hovered || barHoverHandler.hovered || workspaceRevealTimer.running
 
             screen: modelData
             color: "transparent"
@@ -29,10 +29,6 @@ Scope {
             margins.top: 0
             WlrLayershell.layer: WlrLayer.Top
             WlrLayershell.exclusiveZone: 0
-
-            HoverHandler {
-                id: hoverHandler
-            }
 
             Timer {
                 id: workspaceRevealTimer
@@ -48,12 +44,29 @@ Scope {
             }
 
             Rectangle {
+                id: hoverZone
+                width: barWidth
+                height: 4
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: "transparent"
+
+                HoverHandler {
+                    id: hoverZoneHandler
+                }
+            }
+
+            Rectangle {
                 id: bar
                 width: barWidth
                 height: 45
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 y: mainBar.barVisible ? 10 : -45
+
+                HoverHandler {
+                    id: barHoverHandler
+                }
 
                 Behavior on y {
                     NumberAnimation {
