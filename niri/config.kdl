@@ -69,10 +69,10 @@ hotkey-overlay {
     skip-at-startup
 }
 
-screenshot-path null
+screenshot-path "~/Pictures/Screenshots/"
 spawn-sh-at-startup "awww-daemon"
 spawn-sh-at-startup "~/.config/niri/scripts/wallpaper.sh --start"
-spawn-sh-at-startup "qs -c ~/.config/quickshell/wbar-niri"
+spawn-sh-at-startup "qs -c ~/.config/quickshell/yshbar"
 
 animations {
     workspace-switch {
