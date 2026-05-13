@@ -28,7 +28,7 @@ Scope {
             anchors.top: true
             margins.top: 0
             WlrLayershell.layer: WlrLayer.Top
-            WlrLayershell.exclusiveZone: 0
+            WlrLayershell.exclusiveZone: barVisible || bar.y > -44 ? 56 : 0
 
             Timer {
                 id: workspaceRevealTimer
