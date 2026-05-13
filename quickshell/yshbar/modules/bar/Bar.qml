@@ -24,7 +24,7 @@ Scope {
             screen: modelData
             color: "transparent"
             implicitWidth: barWidth
-            implicitHeight: 56
+            implicitHeight: barVisible || bar.y > -44 ? 56 : 0
             anchors.top: true
             margins.top: 0
             WlrLayershell.layer: WlrLayer.Top
