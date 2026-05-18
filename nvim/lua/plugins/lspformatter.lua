@@ -124,6 +124,7 @@ return {
 					},
 				},
 			}
+			vim.lsp.enable("jsonls")
 			vim.lsp.enable("basedpyright")
 			vim.lsp.enable("rust_analyzer")
 			vim.lsp.config["qmlls6"] = {
