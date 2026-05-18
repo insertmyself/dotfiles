@@ -27,6 +27,7 @@ sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/to
 echo "Overriding the zsh theme, please wait..."
 link zsh/themes/alanpeabody.zsh-theme .config/zsh/oh-my-zsh/themes
 echo "Configuring the config into your system, will open neovim when this done so wait until it finishes downloading..."
+link Pictures Pictures
 link zsh/.zshrc .config/zsh
 link nvim .config
 link kitty .config
