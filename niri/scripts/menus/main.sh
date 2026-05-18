@@ -18,8 +18,7 @@ case "${SELECTED}" in
         rofi -show emoji -theme-str "configuration { show-icons: false; }" -i -no-fixed-num-lines
         ;;
     "Start Recording")
-        notify-send "Recording Utility" "Recording started" && pgrep wf-recorder | wf-recorder -b 20000k -r 60 -c libx264 -g 1366x768 --audio=$(pactl get-default-sink).monitor -f $HOME/Videos/Recorded-at-$(date +%Y-%m-%d_%H-%M-%S).mp4
-        RECORDING_STUFF="Stop Recording"
+        notify-send "Recording Utility" "Recording started" && pgrep wf-recorder | wf-recorder -b 20000k -r 60 -c libx264 -g 1366x768 --audio=$(pactl get-default-sink).monitor -f $HOME/Videos/Recorded-at-$(date +%Y-%m-%d_%H-%M-%S).mp4        RECORDING_STUFF="Stop Recording"
         ;;
     "Stop Recording")
         pkill -INT wf-recorder && notify-send "Recording Utility" "Recording stopped"

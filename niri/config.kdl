@@ -2,6 +2,7 @@ workspace "a"
 workspace "b"
 workspace "c"
 prefer-no-csd
+
 input {
     keyboard {
         repeat-rate 35
@@ -69,7 +70,7 @@ hotkey-overlay {
     skip-at-startup
 }
 
-screenshot-path "~/Pictures/Screenshots/"
+screenshot-path "~/Pictures/Screenshots/screenshot-%Y-%m-%d %H-%M-%S.png"
 spawn-sh-at-startup "awww-daemon"
 spawn-sh-at-startup "~/.config/niri/scripts/wallpaper.sh --start"
 spawn-sh-at-startup "qs -c ~/.config/quickshell/yshbar"
