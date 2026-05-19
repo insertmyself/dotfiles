@@ -65,7 +65,6 @@ return {
 					"rust_analyzer",
 					"html",
 					"gopls",
-					"black",
 					"ts_ls",
 					"phpactor",
 					"stimulus_ls",
