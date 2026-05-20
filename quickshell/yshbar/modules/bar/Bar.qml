@@ -19,7 +19,7 @@ Scope {
             required property ShellScreen modelData
             readonly property int barWidth: Math.min(1440, modelData.width - 30)
 
-            readonly property bool barVisible: hoverZoneHandler.hovered || barHoverHandler.hovered || workspaceRevealTimer.running
+            readonly property bool barVisible: hoverZoneHandler.hovered || barHoverHandler.hovered
 
             screen: modelData
             color: "transparent"
@@ -29,19 +29,6 @@ Scope {
             margins.top: 0
             WlrLayershell.layer: WlrLayer.Top
             WlrLayershell.exclusiveZone: barVisible || bar.y > -44 ? 56 : 0
-
-            Timer {
-                id: workspaceRevealTimer
-                interval: 1500
-                repeat: false
-            }
-
-            Connections {
-                target: workspaceWidget
-                function onCurrentChanged() {
-                    workspaceRevealTimer.restart();
-                }
-            }
 
             Rectangle {
                 id: hoverZone

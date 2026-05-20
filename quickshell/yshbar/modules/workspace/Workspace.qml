@@ -10,8 +10,6 @@ Item {
     required property int workspaceBoxWidthAfter
     required property int workspaceBoxHeight
 
-    signal currentChanged
-
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
     implicitWidth: workspaceRow.implicitWidth + 10
@@ -41,11 +39,6 @@ Item {
                 implicitHeight: workspaceWidgetRoot.workspaceBoxHeight
                 radius: 0
                 color: workspaceMouseArea.containsMouse ? "#959595" : "#000000"
-
-                onImplicitWidthChanged: {
-                    if (model.isActive)
-                        workspaceWidgetRoot.currentChanged();
-                }
 
                 Behavior on color {
                     ColorAnimation {
