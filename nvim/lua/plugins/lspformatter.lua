@@ -26,6 +26,9 @@ return {
 					css = { "prettier" },
 					javascript = { "prettier" },
 					php = { "pint" },
+					xml = { "xmllint" },
+					json = { "prettier" },
+					yaml = { "prettier" },
 					blade = { "prettier", "pint" },
 					c = { "clang-format" },
 					cpp = { "clang-format" },
@@ -64,6 +67,7 @@ return {
 					"basedpyright",
 					"rust_analyzer",
 					"html",
+					"lemminx",
 					"gopls",
 					"ts_ls",
 					"phpactor",
@@ -79,6 +83,7 @@ return {
 		},
 		config = function()
 			vim.lsp.enable("lua_ls")
+			vim.lsp.enable("lemminx")
 			vim.lsp.enable("eslint")
 			vim.lsp.enable("ts_ls")
 			vim.lsp.enable("cssls")
