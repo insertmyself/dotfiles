@@ -64,7 +64,7 @@ return {
 					"cssls",
 					"emmet_language_server",
 					"tailwindcss",
-					"basedpyright",
+					"pylsp",
 					"rust_analyzer",
 					"html",
 					"lemminx",
@@ -116,21 +116,8 @@ return {
 			}
 			vim.lsp.enable("phpactor")
 			vim.lsp.enable("clangd")
-			vim.lsp.config["basedpyright"] = {
-				settings = {
-					python = {
-						analysis = {
-							extraPaths = {
-								system_site_packages,
-								vim.fn.expand("~/.local/lib/python3.14/site-packages"),
-							},
-							useLibraryCodeForTypes = true,
-						},
-					},
-				},
-			}
 			vim.lsp.enable("jsonls")
-			vim.lsp.enable("basedpyright")
+			vim.lsp.enable("pylsp")
 			vim.lsp.enable("rust_analyzer")
 			vim.lsp.config["qmlls6"] = {
 				cmd = { "qmlls6" },

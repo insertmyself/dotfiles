@@ -65,6 +65,12 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
+	"<leader>bc",
+	"<CMD>BufferLinePickClose<CR>",
+	{ silent = true, desc = "Move current buffer to the next one" }
+)
+vim.keymap.set(
+	"n",
 	"<leader>bp",
 	"<CMD>BufferLineMovePrev<CR>",
 	{ silent = true, desc = "Move current buffer to the previous one" }
