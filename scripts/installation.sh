@@ -32,7 +32,6 @@ link zsh/.zshrc .config/zsh
 link nvim .config
 link kitty .config
 link fastfetch .config
-link quickshell .config
 link git .config
 link typy .config
 link mpd .config

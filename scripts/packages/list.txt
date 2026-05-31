@@ -1,7 +1,6 @@
 zsh
 discord
 rofi
-quickshell
 just
 libnotify
 imagemagick
