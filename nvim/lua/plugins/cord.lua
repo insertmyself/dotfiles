@@ -21,10 +21,10 @@ return {
 			},
 
 			text = {
-				editing = "Changing stuff in ${filename}",
-				file_browser = "Searching for something in ${name}",
-				docs = "Reading the docs in ${name}",
-				workspace = "Cooking in ${workspace}",
+				editing = "Changing shit over and over again in ${filename}",
+				file_browser = "Searching stuff in ${name}",
+				docs = "Reading docs in ${name}",
+				workspace = "Making something useless in ${workspace}",
 			},
 
 			idle = {
