@@ -27,7 +27,6 @@ return {
 					javascript = { "prettier" },
 					php = { "pint" },
 					xml = { "xmllint" },
-					json = { "prettier" },
 					yaml = { "prettier" },
 					blade = { "prettier", "pint" },
 					c = { "clang-format" },
@@ -83,6 +82,7 @@ return {
 		},
 		config = function()
 			vim.lsp.enable("lua_ls")
+			vim.lsp.enable("ols")
 			vim.lsp.enable("lemminx")
 			vim.lsp.enable("eslint")
 			vim.lsp.enable("ts_ls")
