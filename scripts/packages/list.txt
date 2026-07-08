@@ -6,6 +6,7 @@ libnotify
 imagemagick
 zoxide
 eza
+quickshell
 awww
 ttf-jetbrains-mono
 rmpc
