@@ -31,8 +31,6 @@ cursor {
     xcursor-size 32
 }
 
-environment {}
-
 layout {
     gaps 15
     center-focused-column "always"
@@ -73,7 +71,7 @@ hotkey-overlay {
 screenshot-path "~/Pictures/Screenshots/screenshot-%Y-%m-%d %H-%M-%S.png"
 spawn-sh-at-startup "awww-daemon"
 spawn-sh-at-startup "~/.config/niri/scripts/wallpaper.sh --start"
-spawn-sh-at-startup "qs -c ~/.config/quickshell/yshbar"
+spawn-sh-at-startup "quickshell -c ~/.config/quickshell/wutbar"
 
 animations {
     workspace-switch {
@@ -119,13 +117,6 @@ window-rule {
 window-rule {
     match app-id=r#"xdg-desktop-portal-gtk$"#
     open-floating true
-
-    border {
-        width 3
-        active-color "#ffffff"
-        inactive-color "#606060"
-        urgent-color "#ffffff"
-    }
 }
 
 window-rule {
@@ -139,6 +130,12 @@ window-rule {
 
 window-rule {
     match app-id=r#"discord$"#
+    open-maximized true
+    open-on-workspace "b"
+}
+
+window-rule {
+    match app-id=r#"Spotify$"#
     open-maximized true
     open-on-workspace "b"
 }
@@ -160,18 +157,18 @@ window-rule {
 
 binds {
     Mod+Return hotkey-overlay-title="Open kitty" { spawn "kitty"; }
-    Mod+D hotkey-overlay-title="Run main menus" { spawn "~/.config/niri/scripts/menus/main.sh"; }
+    Mod+D hotkey-overlay-title="Run app selector" { spawn-sh "quickshell -c ~/.config/quickshell/wutbar ipc call launcher toggle"; }
     Mod+Shift+W hotkey-overlay-title="Open wallpaper selector" { spawn "~/.local/share/bin/switar"; }
     Mod+Ctrl+Space hotkey-overlay-title="Set a random wallpaper" { spawn-sh "~/.config/niri/scripts/wallpaper.sh --randomize"; }
     Mod+B hotkey-overlay-title="Open firefox" { spawn "firefox"; }
     Mod+Shift+O hotkey-overlay-title="Open discord" { spawn "discord"; }
 
-    Mod+F11 allow-when-locked=true { spawn-sh "~/.config/niri/scripts/volume.sh --inc"; }
-    Mod+F10 allow-when-locked=true { spawn-sh "~/.config/niri/scripts/volume.sh --dec"; }
-    Mod+F9 allow-when-locked=true { spawn-sh "~/.config/niri/scripts/volume.sh --toggle"; }
+    Mod+F11 allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1.0"; }
+    Mod+F10 allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"; }
+    Mod+F9 allow-when-locked=true { spawn-sh "pactl set-sink-mute @DEFAULT_SINK@ toggle"; }
 
-    Mod+F3 allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh --inc"; }
-    Mod+F4 allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh --dec"; }
+    Mod+F4 allow-when-locked=true { spawn-sh "brightnessctl set -q 5%+"; }
+    Mod+F3 allow-when-locked=true { spawn-sh "brightnessctl set -q 5%-"; }
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
