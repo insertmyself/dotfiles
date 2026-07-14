@@ -109,18 +109,18 @@ PanelWindow {
 
                     delegate: Rectangle {
                         width: appLauncherAppList.width
-                        height: 36
+                        height: 40
                         color: ListView.isCurrentItem ? "#252525" : "transparent"
 
                         Row {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.left: parent.left
                             anchors.leftMargin: 8
-                            spacing: 8
+                            spacing: 14
 
                             IconImage {
-                                width: 24
-                                height: 24
+                                width: 30
+                                height: 30
                                 anchors.verticalCenter: parent.verticalCenter
                                 source: modelData.icon.startsWith("/") ? "file://" + modelData.icon : Quickshell.iconPath(modelData.icon, "application-x-executable")
                             }

@@ -191,7 +191,7 @@ PanelWindow {
                                                 profileWidget.revealed = true;
                                             } else {
                                                 if (!profileWidgetMouseArea.containsMouse) {
-                                                    profileWidget.revealed = true;
+                                                    profileWidget.revealed = false;
                                                 }
                                             }
                                         }

@@ -169,7 +169,7 @@ PanelWindow {
                                         playerWidget.revealed = true;
                                     } else {
                                         if (!playerWidgetMouseArea.containsMouse) {
-                                            playerWidget.revealed = true;
+                                            playerWidget.revealed = false;
                                         }
                                     }
                                 }
@@ -210,7 +210,7 @@ PanelWindow {
                                         playerWidget.revealed = true;
                                     } else {
                                         if (!playerWidgetMouseArea.containsMouse) {
-                                            playerWidget.revealed = true;
+                                            playerWidget.revealed = false;
                                         }
                                     }
                                 }
@@ -251,7 +251,7 @@ PanelWindow {
                                         playerWidget.revealed = true;
                                     } else {
                                         if (!playerWidgetMouseArea.containsMouse) {
-                                            playerWidget.revealed = true;
+                                            playerWidget.revealed = false;
                                         }
                                     }
                                 }

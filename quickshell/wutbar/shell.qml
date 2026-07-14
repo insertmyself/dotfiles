@@ -11,21 +11,44 @@ Scope {
     AppLauncher {}
     ControllerWidget {}
 
-    Process {
-        command: ["sh", "-c", "udevadm monitor --subsystem-match=backlight --udev"]
-        running: true
-        stdout: SplitParser {
-            onRead: updateBrightness.running = true
+    Connections {
+        target: Shared
+
+        function onRequestBrightnessDebounce() {
+            brightnessDebounce.restart();
+        }
+
+        function onRequestMusicVolumeDebounce() {
+            musicVolumeDebounce.restart();
         }
     }
 
     Process {
-        id: updateBrightness
+        command: ["sh", "-c", "udevadm monitor --subsystem-match=backlight --udev"]
+        running: true
+        stdout: SplitParser {
+            onRead: brigthnessProc.running = true
+        }
+    }
+
+    Process {
+        id: brigthnessProc
         command: ["sh", "-c", "brightnessctl -m"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
                 Shared.brightness = this.text.split(",")[3].replace("%", "");
+            }
+        }
+    }
+
+    Process {
+        id: musicVolumeProc
+        command: ["sh", "-c", "playerctl -p spotify volume"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                Shared.musicVolume = this.text;
             }
         }
     }
@@ -169,6 +192,30 @@ Scope {
                 }
             }
         }
+    }
+
+    Process {
+        id: brigthnessSetter
+        command: ["brightnessctl", "set", "-q", Shared.brightness + "%"]
+    }
+
+    Process {
+        id: musicVolumeSetter
+        command: ["playerctl", "-p", "spotify", "volume", Shared.musicVolume.toString()]
+    }
+
+    Timer {
+        id: brightnessDebounce
+        interval: 50
+        repeat: false
+        onTriggered: brigthnessSetter.running = true
+    }
+
+    Timer {
+        id: musicVolumeDebounce
+        interval: 50
+        repeat: false
+        onTriggered: musicVolumeSetter.running = true
     }
 
     Timer {

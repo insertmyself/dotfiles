@@ -1,7 +1,11 @@
 pragma Singleton
+
 import QtQuick
 
 QtObject {
+    signal requestBrightnessDebounce
+    signal requestMusicVolumeDebounce
+
     property string titleText: "Nothing"
     property string titleIcon: " "
     property string artistText: "Nothing"
@@ -13,7 +17,8 @@ QtObject {
     property string username: ""
     property string distro: ""
     property string windowManager: ""
-    property int brightness: 0
+    property real brightness: 0
+    property real musicVolume: 0
     property bool isPlaying: false
     property var levels: []
     property var allApps: []
