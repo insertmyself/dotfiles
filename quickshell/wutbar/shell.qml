@@ -141,33 +141,6 @@ Scope {
     }
 
     Process {
-        id: wifiProc
-        property string result: ""
-
-        command: ["bash", "-c", "iwctl station wlan0 show | grep 'Connected network' | tr -s ' ' | cut -d ' ' -f4-; echo DONE"]
-        running: false
-        stdout: SplitParser {
-            onRead: data => {
-                const ssid = data.trim();
-
-                if (ssid === "DONE") {
-                    if (wifiProc.result.length > 0) {
-                        Shared.wifiText = " " + wifiProc.result + " ]";
-                        Shared.wifiIcon = "[ ";
-                    } else {
-                        Shared.wifiText = " Disconnect ]";
-                        Shared.wifiIcon = "[ ";
-                    }
-
-                    wifiProc.result = "";
-                } else if (ssid.length > 0) {
-                    wifiProc.result = ssid;
-                }
-            }
-        }
-    }
-
-    Process {
         id: appListProc
         command: ["bash", "-c", "for f in /usr/share/applications/*.desktop $HOME/.local/share/applications/*.desktop; do " + "[ -f \"$f\" ] || continue; " + "n=$(grep -m1 '^Name=' \"$f\" | cut -d= -f2-); " + "e=$(grep -m1 '^Exec=' \"$f\" | cut -d= -f2- | sed 's/%[a-zA-Z]//g'); " + "i=$(grep -m1 '^Icon=' \"$f\" | cut -d= -f2-); " + "[ -n \"$n\" ] && [ -n \"$e\" ] && echo \"$n|$e|$i\"; " + "done"]
         running: true
@@ -216,17 +189,5 @@ Scope {
         interval: 50
         repeat: false
         onTriggered: musicVolumeSetter.running = true
-    }
-
-    Timer {
-        interval: 1000
-        running: true
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: {
-            if (!wifiProc.running) {
-                wifiProc.running = true;
-            }
-        }
     }
 }

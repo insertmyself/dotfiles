@@ -11,8 +11,6 @@ QtObject {
     property string artistText: "Nothing"
     property string artistIcon: " "
     property string artUrl: ""
-    property string wifiText: " Disconnect ]"
-    property string wifiIcon: "[ "
     property string githubUsername: "insert.myself"
     property string username: ""
     property string distro: ""

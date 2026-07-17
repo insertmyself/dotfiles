@@ -1,12 +1,39 @@
 import QtQuick
 import Quickshell
-import "."
+import Quickshell.Networking
 
 PanelWindow {
     id: essentialsWidget
     property bool revealed: false
     property bool buttonHovered: false
+    property var wifiDevice: null
 
+    Connections {
+        target: Networking.devices
+
+        function onValuesChanged() {
+            let found = null;
+            for (const device of Networking.devices.values) {
+                if (device.type === DeviceType.Wifi && (device.name === "wlan1" | device.name === "wlan0")) {
+                    found = device;
+                    break;
+                }
+            }
+            essentialsWidget.wifiDevice = found;
+            if (found)
+                found.scannerEnabled = true;
+        }
+    }
+
+    Component.onCompleted: {
+        for (const device of Networking.devices.values) {
+            if (device.type === DeviceType.Wifi && (device.name === "wlan1" | device.name === "wlan0")) {
+                wifiDevice = device;
+                wifiDevice.scannerEnabled = true;
+                break;
+            }
+        }
+    }
     anchors.top: true
     anchors.right: true
     implicitWidth: essentialsWidgetContent.width + 12 * 2
@@ -86,7 +113,7 @@ PanelWindow {
                 Row {
                     Text {
                         id: wifiIcon
-                        text: Shared.wifiIcon
+                        text: Networking.connectivity === NetworkConnectivity.Full ? "[ " : "[ "
                         color: "#ffffff"
                         font.family: "JetBrainsMono Nerd Font"
                         font.pixelSize: 18
@@ -94,7 +121,17 @@ PanelWindow {
 
                     Text {
                         id: wifiLabel
-                        text: Shared.wifiText
+                        property var activeNetwork: {
+                            if (!essentialsWidget.wifiDevice)
+                                return null;
+                            for (const net of essentialsWidget.wifiDevice.networks.values) {
+                                if (net.connected)
+                                    return net;
+                            }
+                            return null;
+                        }
+
+                        text: activeNetwork ? " " + activeNetwork.name + " ]" : " Disconnect ]"
                         color: "#ffffff"
                         font.family: "JetBrainsMono Nerd Font"
                         font.pixelSize: 18
