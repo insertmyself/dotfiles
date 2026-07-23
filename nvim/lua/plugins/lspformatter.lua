@@ -24,6 +24,7 @@ return {
 					lua = { "stylua" },
 					html = { "prettier" },
 					css = { "prettier" },
+					ruby = { "rubocop" },
 					javascript = { "prettier" },
 					php = { "pint" },
 					xml = { "xmllint" },
@@ -45,12 +46,6 @@ return {
 					require("conform").format()
 				end, { silent = true, desc = "Format current document" }),
 			})
-		end,
-	},
-	{
-		"zapling/mason-conform.nvim",
-		config = function()
-			require("mason-conform").setup()
 		end,
 	},
 	{
@@ -123,6 +118,10 @@ return {
 				cmd = { "qmlls6" },
 				filetypes = { "qml" },
 			}
+			vim.lsp.config["ruby_lsp"] = {
+				cmd = { "/home/wetar/.local/share/gem/ruby/3.4.0/bin/ruby-lsp" },
+			}
+			vim.lsp.enable("ruby_lsp")
 			vim.lsp.enable("qmlls6")
 			vim.lsp.enable("gopls")
 			vim.lsp.enable("tailwindcss")

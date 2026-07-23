@@ -25,20 +25,6 @@ return {
 					end
 				end,
 			})
-
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "TSUpdate",
-				callback = function()
-					require("nvim-treesitter.parsers").indonesian_script = {
-						install_info = {
-							url = "~/Documents/tree-sitter-is",
-							files = { "src/parser.c" },
-						},
-
-						filetype = "is",
-					}
-				end,
-			})
 		end,
 	},
 	{
