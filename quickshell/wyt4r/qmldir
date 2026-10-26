@@ -1,0 +1,14 @@
+singleton Volume 1.0 utils/fetchers/Volume.qml
+singleton Workspaces 1.0 utils/fetchers/Workspaces.qml
+singleton Brightness 1.0 utils/fetchers/Brightness.qml
+singleton Power 1.0 utils/fetchers/Power.qml
+singleton Network 1.0 utils/fetchers/Network.qml
+singleton Cava 1.0 utils/fetchers/Cava.qml
+
+Bar 1.0 Bar.qml
+BarShadow 1.0 components/BarShadow.qml
+ClockWidget 1.0 widgets/ClockWidget.qml
+WorkspacesWidget 1.0 widgets/WorkspacesWidget.qml
+CavaWidget 1.0 widgets/CavaWidget.qml
+SystemWidget 1.0 widgets/SystemWidget.qml
+PowerWidget 1.0 widgets/PowerWidget.qml

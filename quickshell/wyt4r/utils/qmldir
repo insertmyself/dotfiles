@@ -1,0 +1,7 @@
+singleton Icons 1.0 providers/Icons.qml
+singleton Volume 1.0 fetchers/Volume.qml
+singleton Workspaces 1.0 fetchers/Workspaces.qml
+singleton Brightness 1.0 fetchers/Brightness.qml
+singleton Power 1.0 fetchers/Power.qml
+singleton Network 1.0 fetchers/Network.qml
+singleton Cava 1.0 fetchers/Cava.qml

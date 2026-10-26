@@ -1,0 +1,5 @@
+ClockWidget 1.0 ClockWidget.qml
+WorkspacesWidget 1.0 WorkspacesWidget.qml
+CavaWidget 1.0 CavaWidget.qml
+SystemWidget 1.0 SystemWidget.qml
+PowerWidget 1.0 PowerWidget.qml

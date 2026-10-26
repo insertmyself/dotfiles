@@ -1,119 +1,74 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "general": {},
   "logo": {
-    "source": "$HOME/.config/fastfetch/crayon.png",
+    "source": "$HOME/.config/fastfetch/girl.png",
     "type": "kitty-direct",
-    "height": 18,
-    "width": 40,
+    "height": 12,
+    "width": 28,
     "padding": {
       "top": 1,
       "left": 2,
-      "right": 4,
+      "right": 0,
       "bottom": 0
     }
   },
   "modules": [
     "break",
     {
-      "type": "custom",
-      "format": "\u001b[97m───────────────────System───────────────────"
-    },
-    "break",
-    {
       "type": "host",
-      "key": "   PC",
-      "format": "{family}",
-      "keyColor": "white"
-    },
-    {
-      "type": "display",
-      "key": "  󰍹 Monitor",
-      "format": "{width}x{height} [{refresh-rate}hz]",
+      "key": "  dev",
+      "format": "{version}",
       "keyColor": "white"
     },
     {
       "type": "cpu",
-      "key": "   CPU",
+      "key": "  cpu",
       "format": "{name}",
       "keyColor": "white"
     },
     {
       "type": "gpu",
-      "key": "   GPU",
-      "format": "{name}",
-      "keyColor": "white"
-    },
-    {
-      "type": "memory",
-      "key": "   Memory",
-      "format": "{used} / {total}",
-      "keyColor": "white"
-    },
-    {
-      "type": "disk",
-      "key": "   Disk",
-      "format": "{size-used} / {size-total} [{filesystem} on {mountpoint}]",
-      "keyColor": "white"
-    },
-    "break",
-    {
-      "type": "custom",
-      "format": "\u001b[97m────────────────────User────────────────────"
-    },
-    "break",
-    {
-      "type": "os",
-      "key": "   Distro",
-      "format": "{name}",
+      "key": "  gpu",
+      "format": "{vendor} {name}",
       "keyColor": "white"
     },
     {
       "type": "kernel",
-      "key": "  󰞸 Kernel",
-      "format": "{release}",
+      "key": "  krn",
+      "format": "{sysname} on {release}",
       "keyColor": "white"
     },
     {
-      "type": "users",
-      "key": "   User",
-      "format": "{1}",
+      "type": "memory",
+      "key": "  mem",
+      "format": "{used} / {total}",
       "keyColor": "white"
     },
     {
-      "type": "media",
-      "key": "   Music",
-      "format": "{title} - {artist}",
+      "type": "uptime",
+      "key": "  upt",
+      "format": "{hours} hrs {minutes} min",
+      "keyColor": "white"
+    },
+    {
+      "type": "os",
+      "key": "  opr",
+      "format": "{name}",
       "keyColor": "white"
     },
     {
       "type": "wm",
-      "key": "   Window Manager",
-      "format": "{pretty-name}",
-      "keyColor": "white"
-    },
-    {
-      "type": "wm",
-      "key": "   Protocol",
-      "format": "{protocol-name}",
+      "key": "  wmn",
+      "format": "{pretty-name} {version}",
       "keyColor": "white"
     },
     {
       "type": "terminal",
-      "key": "   Terminal",
-      "format": "{pretty-name}",
+      "key": "  trm",
+      "format": "{pretty-name} {version}",
       "keyColor": "white"
     },
-    {
-      "type": "shell",
-      "key": "   Shell",
-      "format": "{pretty-name}",
-      "keyColor": "white"
-    },
-    "break",
-    {
-      "type": "colors",
-      "symbol": "square",
-      "paddingLeft": 13
-    }
+    "break"
   ]
 }

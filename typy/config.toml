@@ -1,7 +1,0 @@
-[theme]
-fg = "#ffffff"
-missing = "#787c99"
-error = "#c20000"
-
-[cursor]
-style = "BlinkingBar"
